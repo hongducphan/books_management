@@ -4,10 +4,12 @@ import com.ducph.springboot.model.Book;
 import com.ducph.springboot.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/book")
@@ -20,10 +22,17 @@ public class BookController {
         return bookRepository.findAll();
     }
 
+    @RequestMapping(path = "/{id}")
+    public ResponseEntity<Book> findById(@PathVariable long id) {
+        Book book = bookRepository.findById(id).get();
+        return new ResponseEntity<>(book, HttpStatus.OK);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Book create(@RequestBody Book book) {
-        return bookRepository.save(book);
+    public String create(@RequestBody Book book) {
+        bookRepository.save(book);
+        return "Create book successful!";
     }
 
     @DeleteMapping("/{id}")

@@ -71,4 +71,9 @@ public class BookController {
         return bookRepository.findBooksGreaterThanId(id);
     }
 
+    @RequestMapping(path = "/title/{title}", method = RequestMethod.GET)
+    public Book findByTitle(@PathVariable String title) {
+        return bookRepository.findByTitle(title);
+    }
+
 }
